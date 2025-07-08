@@ -1,32 +1,31 @@
--- Customize nvim-autopairs configuration
+-- Intelligent bracket and quote pairing
+
+-- USE CASE: Automatic code structure completion
+-- - Automatically closes brackets, quotes, and parentheses
+-- - Context-aware pairing based on file type
+-- - Reduces syntax errors and improves typing flow
+-- - Customizable rules for different scenarios
+-- - Essential for maintaining proper code structure
 
 ---@type LazySpec
 return {
   "windwp/nvim-autopairs",
   config = function(plugin, opts)
-    require "astronvim.plugins.configs.nvim-autopairs" (plugin, opts) -- include the default astronvim config that calls the setup call
-    -- add more custom autopairs configuration such as custom rules
+    require "astronvim.plugins.configs.nvim-autopairs" (plugin, opts)
+    -- Custom autopairs rules
     local npairs = require "nvim-autopairs"
     local Rule = require "nvim-autopairs.rule"
     local cond = require "nvim-autopairs.conds"
-    npairs.add_rules(
-      {
-        Rule("$", "$", { "tex", "latex" })
-        -- don't add a pair if the next character is %
-            :with_pair(cond.not_after_regex "%%")
-        -- don't add a pair if  the previous character is xxx
-            :with_pair(
-              cond.not_before_regex("xxx", 3)
-            )
-        -- don't move right when repeat character
-            :with_move(cond.none())
-        -- don't delete if the next character is xx
-            :with_del(cond.not_after_regex "xx")
-        -- disable adding a newline when you press <cr>
-            :with_cr(cond.none()),
-      },
-      -- disable for .vim files, but it work for another filetypes
+    npairs.add_rules({
+      -- LaTeX dollar sign pairing
+      Rule("$", "$", { "tex", "latex" })
+          :with_pair(cond.not_after_regex "%%")     -- Don't pair after comments
+          :with_pair(cond.not_before_regex("xxx", 3)) -- Custom conditions
+          :with_move(cond.none())                   -- Don't move cursor
+          :with_del(cond.not_after_regex "xx")      -- Don't delete in certain contexts
+          :with_cr(cond.none()),                    -- Don't add newline
+      -- Disable for vim files
       Rule("a", "a", "-vim")
-    )
+    })
   end,
 }

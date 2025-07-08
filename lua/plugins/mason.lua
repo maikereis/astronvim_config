@@ -1,38 +1,41 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- Package manager for LSP servers, linters, and formatters
 
--- Customize Mason plugins
+-- USE CASE: Development tool management
+-- - Automatically installs and manages LSP servers
+-- - Handles linter and formatter installation
+-- - Manages debugger (DAP) installations
+-- - Ensures consistent development environment
+-- - Essential for maintaining up-to-date development tools
 
 ---@type LazySpec
 return {
-  -- use mason-lspconfig to configure LSP installations
+  -- LSP server management
   {
     "williamboman/mason-lspconfig.nvim",
-    -- overrides `require("mason-lspconfig").setup(...)`
     opts = {
       ensure_installed = {
-        "lua_ls",
-        -- add more arguments for adding more language servers
+        "lua_ls", -- Lua language server
+        -- Add more language servers as needed
       },
     },
   },
-  -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
+  -- Formatter and linter management
   {
     "jay-babu/mason-null-ls.nvim",
-    -- overrides `require("mason-null-ls").setup(...)`
     opts = {
       ensure_installed = {
-        "stylua",
-        -- add more arguments for adding more null-ls sources
+        "stylua", -- Lua formatter
+        -- Add more formatters/linters as needed
       },
     },
   },
+  -- Debug adapter management
   {
     "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
     opts = {
       ensure_installed = {
-        "python",
-        -- add more arguments for adding more debuggers
+        "python", -- Python debugger
+        -- Add more debuggers as needed
       },
     },
   },
