@@ -7,20 +7,18 @@
 -- - Integrates with telescope for enhanced searching
 -- - Essential for efficient Git workflow within the editor
 
+---@type LazySpec
 return {
   {
     "NeogitOrg/neogit",
     dependencies = {
-      "nvim-lua/plenary.nvim",         -- Utility functions
-      "sindrets/diffview.nvim",        -- Diff viewer
-      "nvim-telescope/telescope.nvim", -- Fuzzy finder integration
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
     },
     config = function()
       require("neogit").setup({
-        integrations = {
-          telescope = true, -- Use telescope for selections
-          diffview = true,  -- Enhanced diff viewing
-        },
+        integrations = { telescope = true, diffview = true },
       })
     end,
   }
